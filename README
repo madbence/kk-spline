@@ -1,0 +1,19 @@
+   __  __   __  __                             ___                            
+  /\ \/\ \ /\ \/\ \                           /\_ \    __                     
+  \ \ \/'/'\ \ \/'/'              ____   _____\//\ \  /\_\     ___       __   
+   \ \ , <  \ \ , <     _______  /',__\ /\ '__`\\ \ \ \/\ \  /' _ `\   /'__`\ 
+    \ \ \\`\ \ \ \\`\  /\______\/\__, `\\ \ \L\ \\_\ \_\ \ \ /\ \/\ \ /\  __/ 
+     \ \_\ \_\\ \_\ \_\\/______/\/\____/ \ \ ,__//\____\\ \_\\ \_\ \_\\ \____\
+      \/_/\/_/ \/_/\/_/          \/___/   \ \ \/ \/____/ \/_/ \/_/\/_/ \/____/
+                                           \ \_\                              
+                                            \/_/                              
+
+KK-spline vs CR-spline, de igazibol annyi mindent tud, hogy tetszolegesen
+bonyolult grafika hazit meg lehet vele oldani.
+
+Marmint ki lehet próbálni, hogy minek kene latszania, a C++ kodot termeszetesen
+nem fogja eloallitani.
+
+Kulonfele okok miatt a forraskod obfuszkalva van, meg kulonben is, szenvedj!
+
+http://madbence.github.io/kk-spline/
