@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>KK vs CR</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="awesome.js"></script>
+    <meta charset="utf-8" />
+    <style>
+      *{margin:0;padding:0;}
+      body{
+        font-family: 'Open Sans', sans-serif;
+        text-align: center;
+        font-size: 12pt;
+        font-weight: 300;
+      }
+      h1{
+        font-weight: 300;
+      }
+      h1,h2,h3{
+        text-align: center;
+        letter-spacing: -1px;
+        font-weight: 300;
+      }
+      h2, h3 {
+        font-size: 14pt;
+      }
+      #content {
+        width: 600px;
+        text-align: left;
+        margin: 0 auto;
+      }
+      input {
+        width: 30px;
+      }
+      input.long{
+        width: 100%;
+      }
+      input[type=checkbox]{
+        width: auto;
+        margin: 0 2px;
+      }
+      input[type=button]{
+        width: auto;
+        margin: 0 2px;
+        padding: 3px;
+      }
+      input[type=range]{
+        width: 550px;
+      }
+      ul{
+        list-style: none;
+        font-size: 10pt;
+      }
+      canvas{
+        margin: 15px;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 40px rgba(0,0,0,0.2);
+      }
+      p{
+        text-align: justify;
+        margin-top: 10px;
+      }
+      footer{
+        margin-top: 30px;
+        margin-bottom: 10px;
+      }
+      textarea {
+        width: 100%;
+        height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>KK-spline vs CR-spline</h1>
+    <h2>Leírás, és minden egyéb tudnivaló az oldal alján</h2>
+    <canvas id="canvas" width="600" height="600">Kölleni fog valami böngésző, ami nem régi IE...</canvas>
+    <div id="content">
+      <h2>Használat</h2>
+      <p>
+        Bal egérgombbal új kontrollpontot teszel le, jobb gombbal arrébhurcolászod a kontrollpontokat. A szóköz billentyűvel, vagy <input type="button" value="ezzel" id="reset" onclick="resetF()" /> gombbal törlöd az összes pontot.
+      </p>
+      <p>
+        Tesztelve Chrome 23.0.1271.26 alatt. Meg a 30-as alatt is.
+      </p>
+      <h2>Paraméter</h2>
+      <ul>
+        <li>
+          <input type="checkbox" id="type0" />
+          <label for="type0"><strong>Piros:</strong></label>
+          Számtani sorozat szerint változó paraméternövekmények
+        </li>
+        <li>
+          <input type="checkbox" id="type1" checked="checked" />
+          <label for="type1"><strong>Zöld:</strong></label>
+          Egyenletes paraméterezés
+        </li>
+        <li>
+          <input type="checkbox" id="type2" />
+          <label for="type2"><strong>Kék:</strong></label>
+          A kontrollpontok távolsága alapján változó paraméterezés
+        </li>
+        <li>
+          <input type="checkbox" id="type3" />
+          <label for="type3"><strong>Lila:</strong></label>
+          A kontrollpontok távolsága alapján változó paraméterezés (négyzetes)
+        </li>
+        <li>
+          <input type="checkbox" id="type4" />
+          <label for="type4"><strong>Narancs:</strong></label>
+          A kontrollpontok távolsága alapján változó paraméterezés (távolság<sup>2/3</sup>)
+        </li>
+        <li>
+          <input type="checkbox" id="type5" />
+          <label for="type5"><strong>Cián:</strong></label>
+          A kontrollpontok távolsága alapján változó paraméterezés (megadott kitevő szerint <input id="power" value="1.1" />)
+        </li>
+        <li>
+          <input type="checkbox" id="type6" />
+          <label for="type6"><strong>Szürke:</strong></label>
+          A kontrollpontok távolsága alapján változó paraméterezés (logaritmikus)
+        </li>
+        <li>
+          <input type="checkbox" id="type7" />
+          <label for="type7"><strong>Barna:</strong></label>
+          Fibonacci sorozat szerint változó paraméternövekmények
+        </li>
+        <li>
+          <input type="checkbox" id="type8" />
+          <label for="type8"><strong>Bordó:</strong></label>
+          Saját paraméterezés (új pont lerakása esetén magától beáll
+          <select id="customtype">
+            <option value="0">egyenletesen változó</option>
+            <option value="1">egyenletes</option>
+            <option value="2">távolság alapú</option>
+            <option value="3">négyzetes</option>
+            <option value="4">köbgyökös</option>
+            <option value="5">tetszőleges kitevőjű</option>
+            <option value="6">logaritmukus</option>
+            <option value="7">fibonacci</option>
+          </select> paraméterezésre)<br />
+          <div id="custom"></div>
+        </li>
+        <li>
+          <input type="checkbox" id="type9" />
+          <label for="type9"><strong>Sárga:</strong></label>
+          Full kásztöm görbe, írj be egy valid js függvényt, és bumm, így lesz a csokapik:
+          <textarea id="customFunc">//p a kontrollponty, van neki x,y propertyje, i a kotrollponty indexe, ps a kontrollpontyok tömbje, len a fekete körvonal hossza.
+return function(p, i, ps, len) {
+  return i/ps.length; //egyenletes paraméterezés
+}</textarea>
+        </li>
+      </ul>
+      <h2>Görbe</h2>
+      <ul>
+        <li>
+          <input type="checkbox" id="kk" checked="checked" />
+          <label for="kk"><strong>Vékony:</strong></label>
+          KK &bdquo;spline&rdquo;
+        </li>
+        <li>
+          <input type="checkbox" id="cat" checked="checked" />
+          <label for="cat"><strong>Vastag:</strong></label>
+          Catmull-Rom &bdquo;spline&rdquo;
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <strong>Felbontás:</strong> <input id="res" value="1000" onchange="setRes(parseInt(this.value)); drawF();" />
+        </li>
+      </ul>
+      <h2>Catmull-Rom paraméterek</h2>
+      <ul>
+        <li>
+          <strong>Tenzió:</strong> <input id="tension" value="0" />
+        </li>
+        <li>
+          <strong>&beta;:</strong> <input id="beta" value="0.5" />
+        </li>
+      </ul>
+      <h2>Felhasználásról</h2>
+      <p>
+        Tény, hogy mivel az egész JavaScript, így a forráskódja elérhető, tehát az alkalmazott képletek minden további nélkül kibányászhatóak. Én mégis szeretnélek erről lebeszélni, mert egyrészt a forrás tömörítve van, így csupa értelmetlen változó és függvénynevek szerepelnek benne (ami a megértést, valamint a C++-ra portolást nagy mértékben hátráltatja), másrészt mert védésen meg sem fogsz tudni mukkanni, ha arra kerül a sor, hogy nyilatkozz az adott képletről. Értsd meg az anyagot, és úgy készítsd el a házidat. Ez a kis alkalmazás csupán arra szolgál, hogy összevesd a saját implementációd eredményét egy (<em>szerintem</em>) helyes megvalósítással.
+      </p>
+      <p style="font-size: 0.8em">
+        UI: simán lehet, hogy én is marhaságot kódoltam le...
+      </p>
+    </div>
+    <footer>
+      <h3>Bugreport, és minden egyéb</h3>
+      <a href="https://github.com/madbence/kk-spline">Github</a>
+    </footer>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-40829040-1', 'madbence.github.io');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
